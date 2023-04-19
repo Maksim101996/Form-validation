@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
 
 	const form = document.getElementById('form');
@@ -15,23 +16,10 @@ document.addEventListener('DOMContentLoaded', function () {
 		formData.append('image', formImage.files[0]);
 
 		if (error === 0) {
-
-			// let response = await fetch('sendmail.php', {
-			// 	method: 'POST',
-			// 	body: formData
-			// });
-			if (response.ok) {
-				let result = await response.json();
-				alert(result.message);
-			}
-			else {
-				alert("Форма отправлена");
-				formPreview.innerHTML = '';
-				form.reset()
-			}
+			formPreview.innerHTML = '';
+			form.reset()
 		}
 	}
-
 
 	function formValidate(form) {
 		let error = 0;
@@ -57,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (input.classList.contains('_password')) {
 				if (input.value === "") {
 					formAddError(input, "The field is empty");
+					error++;
 				}
 				else if (passwordTestNum(input)) {
 					formAddError(input, "Contain min 1 number");
@@ -122,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	const formImage = document.getElementById('formImage');
 	const formPreview = document.getElementById('formPreview');
 
+
 	formImage.addEventListener('change', () => {
 		uploadFile(formImage.files[0]);
 	});
@@ -137,11 +127,13 @@ document.addEventListener('DOMContentLoaded', function () {
 			return;
 		}
 
+
 		let reader = new FileReader();
 
 		reader.onload = function (e) {
 			formPreview.innerHTML = `<img src="${e.target.result}" alt="Фото">`;
 		};
+
 		reader.onerror = function (e) {
 			alert('Ошибка');
 		};
